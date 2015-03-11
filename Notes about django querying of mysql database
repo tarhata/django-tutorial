@@ -1,0 +1,11 @@
+Django Query of MYSQL database:
+
+METHODS
+
+1) get all objects in table
+Poll.objects.all()
+
+2) Filter objects by field (note two underscores __ and space after filter word)!!
+Poll.objects.filter(question__startswith='What' )
+
+

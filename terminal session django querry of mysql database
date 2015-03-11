@@ -1,0 +1,55 @@
+~ $ cd Documents/Tutorials/django-tutorial/mysite
+~/Documents/Tutorials/django-tutorial/mysite $ ./manage.py shell
+Python 2.7.6 (default, Mar 22 2014, 22:59:56) 
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from polls.models import Poll, Choice
+>>> Poll.objects.all()
+[<Poll: What's up?>, <Poll: How are you p?>]
+>>> Poll.objects.filter(id=1)
+[<Poll: What's up?>]
+>>> Poll.objects.filter(id=2)
+[<Poll: How are you p?>]
+>>> Poll.objects.filter(question__startswith='W' )
+[<Poll: What's up?>]
+>>> Poll.objects.filter(question__startswith='H' )
+[<Poll: How are you p?>]
+>>> Poll.objects.filter(question__startswith='w' )
+[]
+>>> from django.utils import timezone
+>>> current_year=timezone.now().year
+>>> print current_year
+2015
+>>> Poll.objects.get(pub_date__year=current_year )
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 143, in get
+    return self.get_query_set().get(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 405, in get
+    (self.model._meta.object_name, num, kwargs))
+MultipleObjectsReturned: get() returned more than one Poll -- it returned 2! Lookup parameters were {'pub_date__year': 2015}
+>>> p = Poll.objects.get(id=2)
+>>> print p
+How are you p?
+>>> Poll.objects.filter(poll=p).delete()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 155, in filter
+    return self.get_query_set().filter(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 667, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 685, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/sql/query.py", line 1259, in add_q
+    can_reuse=used_aliases, force_having=force_having)
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/sql/query.py", line 1127, in add_filter
+    process_extras=process_extras)
+  File "/usr/local/lib/python2.7/dist-packages/django/db/models/sql/query.py", line 1325, in setup_joins
+    "Choices are: %s" % (name, ", ".join(names)))
+FieldError: Cannot resolve keyword 'poll' into field. Choices are: choice, id, pub_date, question
+>>> Poll.objects.filter(question=p).delete()
+>>> Poll.objects.get(pub_date__year=current_year )
+<Poll: What's up?>
+>>> 
+

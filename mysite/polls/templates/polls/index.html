@@ -1,0 +1,24 @@
+{% comment %}
+  BAD - URL is hardcoded in template; prevents changing future URL and re-use of template
+{% if latest_poll_list %}
+  <ul>
+  {% for poll in latest_poll_list %}
+    <li><a href="/polls/{{poll.id}}/">{{ poll.pub_date }}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No polls are available.</p>
+{% endif %} #}
+{% endcomment %}
+
+{# Removing hardcoded URLS in templates #}
+<h1>Latest List of Polls</h1>
+{% if latest_poll_list %}
+  <ul>
+  {% for poll in latest_poll_list %}
+    <li><a href="{% url 'polls:detail' poll.id %}">{{ poll.pub_date }}</a></li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No polls are available.</p>
+{% endif %}
