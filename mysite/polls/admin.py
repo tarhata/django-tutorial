@@ -3,12 +3,12 @@ from polls.models import Poll, Choice
 
 class ChoicesInline(admin.TabularInline):
   model = Choice
-  extra = 1
+  extra = 8
 
 class PollAdmin(admin.ModelAdmin):
   fieldsets = [
-  	('Poll fields', {'fields': ['question']}),
-  	('Date Information', {'fields': ['pub_date']}),
+    ('Poll fields', {'fields': ['question']}),
+    ('Date Information', {'fields': ['pub_date']}),
   ]
   inlines = [ChoicesInline]
   list_display = ('question', 'pub_date', 'was_published_recently')

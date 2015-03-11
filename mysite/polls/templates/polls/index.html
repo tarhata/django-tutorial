@@ -1,3 +1,8 @@
+{% load staticfiles %}
+
+{# <link rel="stylesheet" type="text/css" href="{% static "polls/style.css" %}" /> #}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
 {% comment %}
   BAD - URL is hardcoded in template; prevents changing future URL and re-use of template
 {% if latest_poll_list %}
@@ -12,6 +17,7 @@
 {% endcomment %}
 
 {# Removing hardcoded URLS in templates #}
+
 <h1>Latest List of Polls</h1>
 {% if latest_poll_list %}
   <ul>
